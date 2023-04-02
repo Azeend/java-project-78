@@ -2,7 +2,7 @@ package hexlet.code;
 
 import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;
-import hexlet.code.schemas.Schema;
+import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.Test;
 
@@ -92,7 +92,7 @@ public class ValidatorTest {
         MapSchema schema = v.map();
 
 // shape - позволяет описывать валидацию для значений объекта Map по ключам.
-        Map<String, Schema> schemas = new HashMap<>();
+        Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put("name", v.string().required());
         schemas.put("age", v.number().positive());
         schema.shape(schemas);
