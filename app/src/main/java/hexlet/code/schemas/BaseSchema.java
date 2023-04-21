@@ -19,12 +19,6 @@ public class BaseSchema {
     }
 
     public final boolean isValid(Object o) {
-        if (!isRequired && (o == null || o.equals(""))) {
-            return true;
-        }
-        if (isRequired && o == null) {
-            return false;
-        }
         if (!isRequired) {
             return true;
         }
