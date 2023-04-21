@@ -5,6 +5,7 @@ import java.util.Map;
 public class MapSchema extends BaseSchema {
     public final MapSchema required() {
         addToConditionList(x -> x instanceof Map);
+        setRequired();
         return this;
     }
 

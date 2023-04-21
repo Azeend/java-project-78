@@ -3,6 +3,7 @@ package hexlet.code.schemas;
 public class NumberSchema extends BaseSchema {
     public final NumberSchema required() {
         addToConditionList(x -> x instanceof Integer && x != null);
+        setRequired();
         return this;
     }
 
