@@ -10,7 +10,7 @@ public class BaseSchema {
 
     private boolean isRequired;
 
-    public void setRequired() {
+    public final void setRequired() {
         isRequired = true;
     }
 
