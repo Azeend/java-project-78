@@ -19,8 +19,11 @@ public class BaseSchema {
     }
 
     public final boolean isValid(Object o) {
-        if (!isRequired) {
+        if (!isRequired && (o == null || o.equals(""))) {
             return true;
+        }
+        if (isRequired && o == null) {
+            return false;
         }
         for (Predicate<Object> p : conditions) {
             if (!p.test(o)) {

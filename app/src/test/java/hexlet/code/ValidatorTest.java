@@ -57,16 +57,16 @@ public class ValidatorTest {
         assertFalse(stringSchema.contains("whatthe").isValid("what does the fox say"));
         assertTrue(stringSchema.isValid("whatthe does fox say"));
         assertFalse(stringSchema.isValid("what does the fox say"));
+        assertFalse(stringSchema.contains("what").isValid(""));
+        assertFalse(stringSchema.contains("what").isValid(null));
     }
     @Test
     public void testStringSchemaContainsWithoutRequired() {
         StringSchema stringSchema = Validator.string();
 
         assertTrue(stringSchema.contains("wh").isValid("what does the fox say"));
-        assertTrue(stringSchema.contains("what").isValid("what does the fox say"));
-        assertTrue(stringSchema.contains("whatthe").isValid("what does the fox say"));
-        assertTrue(stringSchema.isValid("whatthe does fox say"));
-        assertTrue(stringSchema.isValid("what does the fox say"));
+        assertTrue(stringSchema.contains("what").isValid(""));
+        assertTrue(stringSchema.contains("what").isValid(null));
     }
 
     @Test
@@ -77,7 +77,6 @@ public class ValidatorTest {
         assertTrue(numberSchema.positive().isValid(null)); // true
         assertTrue(numberSchema.isValid(""));
         assertTrue(numberSchema.isValid(number));
-        assertTrue(numberSchema.isValid("what does fox say"));
     }
 
     @Test
@@ -96,8 +95,8 @@ public class ValidatorTest {
         numberSchema.positive();
 
         assertTrue(numberSchema.positive().isValid(null));
-        assertTrue(numberSchema.isValid(-10));
-        assertTrue(numberSchema.isValid(0));
+        assertFalse(numberSchema.isValid(-10));
+        assertFalse(numberSchema.isValid(0));
     }
 
     @Test
@@ -128,8 +127,7 @@ public class ValidatorTest {
 
         assertTrue(numberSchema.isValid(5)); // true
         assertTrue(numberSchema.isValid(10)); // true
-        assertTrue(numberSchema.isValid(4)); // true
-        assertTrue(numberSchema.isValid(11)); // true
+        assertTrue(numberSchema.isValid(null)); // true
     }
 
     @Test
@@ -169,10 +167,10 @@ public class ValidatorTest {
         MapSchema mapSchema = Validator.map();
         mapSchema.sizeof(2);
 
-        assertTrue(mapSchema.isValid(data));  // true
         data.put("key2", "value2");
         data.put("key3", "value3");
         assertTrue(mapSchema.isValid(data)); // true
+        assertTrue(mapSchema.isValid(null));  // true
     }
 
     @Test
@@ -187,22 +185,22 @@ public class ValidatorTest {
         Map<String, Object> human1 = new HashMap<>();
         human1.put("name", "Kolya");
         human1.put("age", 100);
-        mapSchema.isValid(human1); // true
+        assertTrue(mapSchema.isValid(human1)); // true
 
         Map<String, Object> human2 = new HashMap<>();
         human2.put("name", "Maya");
         human2.put("age", null);
-        mapSchema.isValid(human2); // true
+        assertTrue(mapSchema.isValid(human2)); // true
 
         Map<String, Object> human3 = new HashMap<>();
         human3.put("name", "");
         human3.put("age", null);
-        mapSchema.isValid(human3); // false
+        assertFalse(mapSchema.isValid(human3)); // false
 
         Map<String, Object> human4 = new HashMap<>();
         human4.put("name", "Valya");
         human4.put("age", -5);
-        mapSchema.isValid(human4); // false
+        assertFalse(mapSchema.isValid(human4)); // false
     }
     @Test
     public void testShapeWithoutRequired() {
@@ -214,13 +212,13 @@ public class ValidatorTest {
         mapSchema.shape(schemas);
 
         Map<String, Object> human1 = new HashMap<>();
-        human1.put("name", "Kolya");
+        human1.put("name", "Kolyan");
         human1.put("age", 100);
-        mapSchema.isValid(human1); // true
+        assertTrue(mapSchema.isValid(human1));
 
         Map<String, Object> human2 = new HashMap<>();
         human2.put("name", "Maya");
         human2.put("age", null);
-        mapSchema.isValid(human2); // true
+        assertFalse(mapSchema.isValid(human2));
     }
 }
